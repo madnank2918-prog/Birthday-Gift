@@ -67,27 +67,23 @@
 
     footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
 
-    /* responsive */
     @media (max-width:720px){
       .gallery{grid-template-columns:repeat(2,1fr)}
       .card{padding:18px}
       h1{font-size:22px}
     }
 
-    /* heart float animation */
     .floating-heart{position:absolute;right:18px;top:18px;pointer-events:none}
     .heart{width:38px;height:38px;display:inline-block;transform:rotate(-45deg);position:relative}
     .heart:before,.heart:after{content:"";width:38px;height:38px;background:var(--accent);border-radius:50%;position:absolute}
     .heart:before{top:-19px}
     .heart:after{left:19px}
 
-    /* popup modal preview */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .18s}
     .modal.show{opacity:1;pointer-events:auto}
     .modal .inner{max-width:900px;width:94%;background:white;padding:16px;border-radius:12px}
     .modal img{width:100%;height:auto;border-radius:8px}
 
-    /* little confetti bits */
     canvas.confetti{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
   </style>
 </head>
@@ -102,7 +98,7 @@
       <div class="logo">🎂</div>
       <div>
         <h1>Happy 24th Birthday!</h1>
-        <p class="lead">A Queen is Born on October 28, 2001 — Wishing you a day full of smiles ✨</p>
+        <p class="lead">Born: October 28, 2001 — Wishing you a day full of smiles ✨</p>
       </div>
     </header>
 
@@ -112,8 +108,7 @@
       <p>You make ordinary days feel like an adventure. I can't wait for all the memories we'll make together. I love you more than these words can say.</p>
       <p style="font-weight:700;margin-top:8px">— With love, Dudu</p>
 
-      <!-- Small timeline / little facts -->
-      <div style="margin-top:12px;color:var(--muted);font-size:14px">Fun facts: A Queen Born on <strong>28 Oct 2001</strong> — Turning <strong>24</strong> today 🎉</div>
+      <div style="margin-top:12px;color:var(--muted);font-size:14px">Fun facts: Born on <strong>28 Oct 2001</strong> — Turning <strong>24</strong> today 🎉</div>
     </section>
 
     <section>
@@ -125,7 +120,6 @@
         </div>
       </div>
 
-      <!-- Gallery: replace image paths with your photos in images/ folder -->
       <div class="gallery" id="gallery">
         <img src="photos/A.jpg" alt="photo 1" data-full="photos/A.jpg">
         <img src="photos/B.jpg" alt="photo 2" data-full="photos/B.jpg">
@@ -136,7 +130,6 @@
         <img src="photos/H.jpg" alt="photo 7" data-full="photos/H.jpg">
         <img src="photos/I.jpg" alt="photo 8" data-full="photos/I.jpg">
       </div>
-
     </section>
 
     <footer>
@@ -144,11 +137,15 @@
     </footer>
   </div>
 
-  <!-- modal preview -->
   <div class="modal" id="modal"><div class="inner" id="modalInner"></div></div>
 
+  <!-- Background music -->
+  <audio id="birthdayMusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b99a00b0a.mp3?filename=happy-birthday-to-you-20976.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    // Small confetti implementation
+    // Confetti setup
     const confettiCanvas = document.getElementById('confetti');
     const ctx = confettiCanvas.getContext('2d');
     function resizeCanvas(){
@@ -159,7 +156,6 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // particles
     function launchConfetti(){
       const pieces = [];
       const W = confettiCanvas.clientWidth, H = confettiCanvas.clientHeight;
@@ -179,27 +175,27 @@
           ctx.fillRect(-p.rx/2, -p.ry/2, p.rx, p.ry);
           ctx.restore();
         }
-        // stop when pieces are offscreen
         if(pieces.every(p => p.y > H + 50)) return;
         requestAnimationFrame(draw);
       }
       draw();
     }
 
-    // gallery behavior
+    // gallery modal
     const gallery = document.getElementById('gallery');
     gallery.addEventListener('click', e=>{
       const img = e.target.closest('img');
       if(!img) return;
-      const full = img.dataset.full || img.src;
       const modal = document.getElementById('modal');
       const inner = document.getElementById('modalInner');
-      inner.innerHTML = `<img src="${full}" alt="full photo">`;
+      inner.innerHTML = `<img src="${img.dataset.full || img.src}" alt="full photo">`;
       modal.classList.add('show');
     });
-    document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal') e.currentTarget.classList.remove('show'); });
+    document.getElementById('modal').addEventListener('click', e=>{
+      if(e.target.id==='modal') e.currentTarget.classList.remove('show');
+    });
 
-    // shuffle photos
+    // shuffle button
     document.getElementById('shuffle').addEventListener('click', ()=>{
       const imgs = Array.from(gallery.querySelectorAll('img'));
       for(let i=imgs.length-1;i>0;i--){
@@ -209,29 +205,43 @@
       }
     });
 
-    // celebrate button
+    // celebrate button manual trigger (still works)
     document.getElementById('celebrate').addEventListener('click', ()=>{
       launchConfetti();
-      // little pulse
       const card = document.getElementById('card');
       card.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:600,iterations:1});
     });
 
-    // small accessibility: keyboard escape closes modal
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('modal').classList.remove('show'); });
+    // Automatically start confetti + try music autoplay on load
+    window.addEventListener('load', ()=>{
+      launchConfetti();
 
-    // Make the current age calculation (optional)
+      const music = document.getElementById('birthdayMusic');
+      const playMusic = () => {
+        music.play().catch(()=>{}); // browsers may require interaction
+      };
+
+      // Try autoplay after load
+      setTimeout(playMusic, 500);
+
+      // Also allow manual fallback (first click anywhere)
+      document.body.addEventListener('click', playMusic, { once: true });
+    });
+
+    // Escape closes modal
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Escape') document.getElementById('modal').classList.remove('show');
+    });
+
+    // Age auto calc
     (function setAge(){
-      try{
-        const born = new Date(2001,9,28); // months 0-indexed, Oct = 9
-        const now = new Date();
-        let age = now.getFullYear() - born.getFullYear();
-        const m = now.getMonth() - born.getMonth();
-        if(m<0 || (m===0 && now.getDate()<born.getDate())) age--;
-        // find the element with the big text to show age
-        const big = document.querySelector('.big-wish');
-        if(big) big.textContent = `Happy ${age}th, my love!`;
-      }catch(e){console.warn(e)}
+      const born = new Date(2001,9,28);
+      const now = new Date();
+      let age = now.getFullYear() - born.getFullYear();
+      const m = now.getMonth() - born.getMonth();
+      if(m<0 || (m===0 && now.getDate()<born.getDate())) age--;
+      const big = document.querySelector('.big-wish');
+      if(big) big.textContent = `Happy ${age}th, my love!`;
     })();
   </script>
 </body>
