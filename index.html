@@ -3,81 +3,171 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy 24th Birthday!</title>
+  <title>Happy 24th Birthday 💖</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Pacifico&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1: linear-gradient(135deg,#FFEEF1 0%, #FFF1E6 50%, #E8F7FF 100%);
+    :root {
+      --bg1: linear-gradient(135deg, #FFEAF3 0%, #FFF8E7 50%, #E8F7FF 100%);
       --accent: #FF6B9A;
+      --accent2: #FFD477;
       --muted: #6b6b6b;
       --card: rgba(255,255,255,0.85);
     }
-    *{box-sizing:border-box}
+    *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background:var(--bg1);
-      color:#222;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+      font-family: Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      background: var(--bg1);
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: fadeIn 2s ease;
     }
-    .card{width:100%;max-width:980px;background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,0.12);overflow:hidden;position:relative;padding:28px;}
-    header{display:flex;gap:16px;align-items:center;margin-bottom:18px;}
-    .logo{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,#FFD1DC,#FFC9E3);display:flex;align-items:center;justify-content:center;font-family:Pacifico,cursive;font-size:22px;color:white;box-shadow:0 6px 14px rgba(255,107,154,0.25);}
-    h1{margin:0;font-size:28px}
-    p.lead{margin:4px 0 0;color:var(--muted)}
-    #wishes{background:rgba(255,255,255,0.9);padding:18px;border-radius:12px;margin-bottom:18px}
-    #wishes p{margin:0 0 8px;line-height:1.45}
-    .big-wish{font-family:Pacifico,cursive;font-size:30px;color:var(--accent);margin-bottom:10px}
-    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:3px solid rgba(255,255,255,0.6);box-shadow:0 6px 18px rgba(0,0,0,0.06);transition:transform .28s ease}
-    .gallery img:hover{transform:translateY(-6px) scale(1.03)}
-    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .btn{padding:8px 12px;border-radius:10px;background:white;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-weight:600}
-    .btn.primary{background:var(--accent);color:white;border:none}
-    footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
-    @media (max-width:720px){.gallery{grid-template-columns:repeat(2,1fr)}.card{padding:18px}h1{font-size:22px}}
-    .floating-heart{position:absolute;right:18px;top:18px;pointer-events:none}
-    .heart{width:38px;height:38px;display:inline-block;transform:rotate(-45deg);position:relative}
-    .heart:before,.heart:after{content:"";width:38px;height:38px;background:var(--accent);border-radius:50%;position:absolute}
-    .heart:before{top:-19px}.heart:after{left:19px}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .18s}
-    .modal.show{opacity:1;pointer-events:auto}
-    .modal .inner{max-width:900px;width:94%;background:white;padding:16px;border-radius:12px}
-    .modal img{width:100%;height:auto;border-radius:8px}
-    canvas.confetti{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    .card {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      animation: floatCard 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCard {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-6px); }
+    }
+
+    header { display:flex; align-items:center; gap:16px; margin-bottom:18px; }
+    .logo{
+      width:72px;height:72px;border-radius:50%;
+      background:linear-gradient(135deg,#FFD1DC,#FFB6C1);
+      display:flex;align-items:center;justify-content:center;
+      font-family:Pacifico,cursive;font-size:24px;color:white;
+      box-shadow:0 6px 14px rgba(255,107,154,0.25);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,107,154,0.3);}
+      50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,107,154,0.5);}
+    }
+
+    h1 {
+      margin:0;
+      font-size: 32px;
+      font-family: Pacifico, cursive;
+      color: var(--accent);
+      background: linear-gradient(90deg, #FF6B9A, #FFD477, #FF6B9A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: shimmer 5s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0%; }
+      100% { background-position: 200%; }
+    }
+
+    p.lead { color: var(--muted); margin-top:4px; }
+
+    #wishes {
+      background: rgba(255,255,255,0.9);
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      animation: fadeUp 1.6s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #wishes p { margin-bottom: 8px; line-height: 1.45; }
+    .big-wish { font-family: Pacifico, cursive; font-size: 30px; color: var(--accent); margin-bottom: 10px; }
+
+    .gallery { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
+    .gallery img {
+      width:100%; height:120px; object-fit:cover;
+      border-radius: 10px;
+      border:3px solid rgba(255,255,255,0.6);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+    .gallery img:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 10px 20px rgba(255,107,154,0.2);
+    }
+
+    .controls { display:flex; gap:8px; margin-top:12px; }
+    .btn { padding:8px 12px; border-radius:10px; background:white; border:1px solid rgba(0,0,0,0.06); cursor:pointer; font-weight:600; }
+    .btn.primary { background:var(--accent); color:white; border:none; }
+
+    footer { display:flex; justify-content:space-between; align-items:center; margin-top:18px; color:var(--muted); font-size:13px; }
+
+    @media (max-width:720px) {
+      .gallery { grid-template-columns:repeat(2,1fr); }
+      h1 { font-size:24px; }
+      .card { padding:18px; }
+    }
+
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .18s; }
+    .modal.show { opacity:1; pointer-events:auto; }
+    .modal .inner { max-width:900px; width:94%; background:white; padding:16px; border-radius:12px; }
+    .modal img { width:100%; border-radius:8px; }
+
+    canvas.confetti { position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+
+    /* Floating Hearts Animation */
+    .heart-shape {
+      position:absolute;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      color: #FF6B9A;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+    }
   </style>
 </head>
 <body>
   <div class="card" id="card">
     <canvas class="confetti" id="confetti"></canvas>
-    <div class="floating-heart" aria-hidden><div class="heart" style="animation:float 3s infinite linear"></div></div>
 
     <header>
       <div class="logo">🎂</div>
       <div>
         <h1>Happy 24th Birthday!</h1>
-        <p class="lead">A Queen was Born on October 28, 2001 — Wishing you a day full of smiles ✨</p>
+        <p class="lead">A Queen was Born on October 28, 2001 — today we celebrate *you!* 🌷</p>
       </div>
     </header>
 
     <section id="wishes">
       <div class="big-wish">Happy 24th, my love!</div>
-      <p>Today I celebrate the incredible person you are — your kindness, laughter, and the little moments we share that mean everything to me.</p>
-      <p>You make ordinary days feel like an adventure. I can't wait for all the memories we'll make together. I love you more than these words can say.</p>
-      <p style="font-weight:700;margin-top:8px">— With love, Dudu</p>
+      <p>You’re the light in my days and the calm in my storms. Every day with you feels more magical than the last.</p>
+      <p>Thank you for being my best friend, my peace, and my adventure. I love you endlessly.</p>
+      <p style="font-weight:700;margin-top:8px">— With all my love, Dudu 💖</p>
     </section>
 
     <section>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div style="font-weight:700">Photos of us</div>
+        <div style="font-weight:700">Our favorite moments</div>
         <div class="controls">
           <button class="btn" id="shuffle">Shuffle</button>
           <button class="btn primary" id="celebrate">Celebrate 🎉</button>
-          <button class="btn" id="playMusic">Play Music 💖</button>
         </div>
       </div>
 
@@ -88,20 +178,15 @@
         <img src="photos/D.jpg" alt="photo 4" data-full="photos/D.jpg">
         <img src="photos/E.jpg" alt="photo 5" data-full="photos/E.jpg">
         <img src="photos/F.jpg" alt="photo 6" data-full="photos/F.jpg">
-        <img src="photos/H.jpg" alt="photo 7" data-full="photos/H.jpg">
-        <img src="photos/I.jpg" alt="photo 8" data-full="photos/I.jpg">
+        <img src="photos/G.jpg" alt="photo 7" data-full="photos/G.jpg">
+        <img src="photos/H.jpg" alt="photo 8" data-full="photos/H.jpg">
       </div>
     </section>
 
-    <footer><div style="font-size:12px">Tip: click any photo to view larger</div></footer>
+    <footer><div>Click any photo to see it bigger 💕</div></footer>
   </div>
 
   <div class="modal" id="modal"><div class="inner" id="modalInner"></div></div>
-
-  <!-- Background music -->
-  <audio id="birthdayMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b99a00b0a.mp3?filename=happy-birthday-to-you-20976.mp3" type="audio/mpeg">
-  </audio>
 
   <script>
     // Confetti setup
@@ -115,13 +200,19 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    function launchConfetti(){
+    function launchConfetti(duration = 10000){
       const pieces = [];
       const W = confettiCanvas.clientWidth, H = confettiCanvas.clientHeight;
-      for(let i=0;i<140;i++){
-        pieces.push({x:Math.random()*W,y:Math.random()*-H,vy:1+Math.random()*4,rx:Math.random()*8,ry:Math.random()*16,color:['#FF6B9A','#FFB88C','#FFD477','#8EE0FF'][Math.floor(Math.random()*4)],rot:Math.random()*360});
+      for(let i=0;i<150;i++){
+        pieces.push({
+          x:Math.random()*W, y:Math.random()*-H,
+          vy:1+Math.random()*4,
+          rx:Math.random()*8, ry:Math.random()*16,
+          color:['#FF6B9A','#FFB88C','#FFD477','#8EE0FF'][Math.floor(Math.random()*4)],
+          rot:Math.random()*360
+        });
       }
-      let t=0;
+      let t=0, start=Date.now();
       function draw(){
         t+=1;
         ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
@@ -134,13 +225,25 @@
           ctx.fillRect(-p.rx/2, -p.ry/2, p.rx, p.ry);
           ctx.restore();
         }
-        if(pieces.every(p => p.y > H + 50)) return;
-        requestAnimationFrame(draw);
+        if(Date.now() - start < duration) requestAnimationFrame(draw);
       }
       draw();
     }
 
-    // gallery modal
+    // Floating hearts
+    function createHeart(){
+      const heart = document.createElement('div');
+      heart.classList.add('heart-shape');
+      heart.textContent = '💖';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = (16 + Math.random() * 10) + 'px';
+      heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 600);
+
+    // Modal for full image
     const gallery = document.getElementById('gallery');
     gallery.addEventListener('click', e=>{
       const img = e.target.closest('img');
@@ -154,7 +257,7 @@
       if(e.target.id==='modal') e.currentTarget.classList.remove('show');
     });
 
-    // shuffle button
+    // Shuffle gallery
     document.getElementById('shuffle').addEventListener('click', ()=>{
       const imgs = Array.from(gallery.querySelectorAll('img'));
       for(let i=imgs.length-1;i>0;i--){
@@ -164,30 +267,22 @@
       }
     });
 
-    // celebrate button
+    // Celebrate button
     document.getElementById('celebrate').addEventListener('click', ()=>{
-      launchConfetti();
+      launchConfetti(10000);
       const card = document.getElementById('card');
       card.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:600,iterations:1});
     });
 
-    // play music button
-    document.getElementById('playMusic').addEventListener('click', ()=>{
-      const music = document.getElementById('birthdayMusic');
-      music.play().then(()=> {
-        document.getElementById('playMusic').textContent = '🎶 Music Playing...';
-      }).catch(err=>{
-        alert('Please click once to allow music playback.');
-        console.log(err);
-      });
-    });
+    // Auto confetti on load for 10 seconds
+    window.addEventListener('load', ()=> launchConfetti(10000));
 
     // Escape closes modal
     document.addEventListener('keydown', e=>{
       if(e.key==='Escape') document.getElementById('modal').classList.remove('show');
     });
 
-    // auto age calculation
+    // auto age update
     (function setAge(){
       const born = new Date(2001,9,28);
       const now = new Date();
