@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy 24th Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: linear-gradient(135deg,#FFEEF1 0%, #FFF1E6 50%, #E8F7FF 100%);
+      --accent: #FF6B9A;
+      --muted: #6b6b6b;
+      --card: rgba(255,255,255,0.85);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:var(--bg1);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#222;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:980px;
+      background:var(--card);
+      border-radius:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      overflow:hidden;
+      position:relative;
+      padding:28px;
+    }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+    .logo{
+      width:72px;height:72px;border-radius:14px;
+      background:linear-gradient(135deg,#FFD1DC,#FFC9E3);
+      display:flex;align-items:center;justify-content:center;
+      font-family:Pacifico, cursive;font-size:22px;color:white;box-shadow:0 6px 14px rgba(255,107,154,0.25);
+    }
+    h1{margin:0;font-size:28px}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+
+    #wishes{background:rgba(255,255,255,0.9);padding:18px;border-radius:12px;margin-bottom:18px}
+    #wishes p{margin:0 0 8px;line-height:1.45}
+    .big-wish{font-family:Pacifico, cursive;font-size:30px;color:var(--accent);margin-bottom:10px}
+
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:3px solid rgba(255,255,255,0.6);box-shadow:0 6px 18px rgba(0,0,0,0.06);transition:transform .28s ease}
+    .gallery img:hover{transform:translateY(-6px) scale(1.03)}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .btn{padding:8px 12px;border-radius:10px;background:white;border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-weight:600}
+    .btn.primary{background:var(--accent);color:white;border:none}
+
+    footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media (max-width:720px){
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .card{padding:18px}
+      h1{font-size:22px}
+    }
+
+    /* heart float animation */
+    .floating-heart{position:absolute;right:18px;top:18px;pointer-events:none}
+    .heart{width:38px;height:38px;display:inline-block;transform:rotate(-45deg);position:relative}
+    .heart:before,.heart:after{content:"";width:38px;height:38px;background:var(--accent);border-radius:50%;position:absolute}
+    .heart:before{top:-19px}
+    .heart:after{left:19px}
+
+    /* popup modal preview */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .18s}
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal .inner{max-width:900px;width:94%;background:white;padding:16px;border-radius:12px}
+    .modal img{width:100%;height:auto;border-radius:8px}
+
+    /* little confetti bits */
+    canvas.confetti{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <canvas class="confetti" id="confetti"></canvas>
+    <div class="floating-heart" aria-hidden>
+      <div class="heart" style="animation:float 3s infinite linear"></div>
+    </div>
+
+    <header>
+      <div class="logo">🎂</div>
+      <div>
+        <h1>Happy 24th Birthday!</h1>
+        <p class="lead">A Queen is Born on October 28, 2001 — Wishing you a day full of smiles ✨</p>
+      </div>
+    </header>
+
+    <section id="wishes">
+      <div class="big-wish">Happy 24th, my love!</div>
+      <p>Today I celebrate the incredible person you are — your kindness, laughter, and the little moments we share that mean everything to me.</p>
+      <p>You make ordinary days feel like an adventure. I can't wait for all the memories we'll make together. I love you more than these words can say.</p>
+      <p style="font-weight:700;margin-top:8px">— With love, Adnan</p>
+
+      <!-- Small timeline / little facts -->
+      <div style="margin-top:12px;color:var(--muted);font-size:14px">Fun facts: Born on <strong>28 Oct 2001</strong> — Turning <strong>24</strong> today 🎉</div>
+    </section>
+
+    <section>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div style="font-weight:700">Photos of us</div>
+        <div class="controls">
+          <button class="btn" id="shuffle">Shuffle</button>
+          <button class="btn primary" id="celebrate">Celebrate 🎉</button>
+        </div>
+      </div>
+
+      <!-- Gallery: replace image paths with your photos in images/ folder -->
+      <div class="gallery" id="gallery">
+        <img src="images/A.jpg" alt="photo 1" data-full="images/A.jpg">
+        <img src="images/B.jpg" alt="photo 2" data-full="images/B.jpg">
+        <img src="images/C.jpg" alt="photo 3" data-full="images/C.jpg">
+        <img src="images/D.jpg" alt="photo 4" data-full="images/D.jpg">
+        <img src="images/E.jpg" alt="photo 5" data-full="images/E.jpg">
+        <img src="images/F.jpg" alt="photo 6" data-full="images/F.jpg">
+        <img src="images/H.jpg" alt="photo 7" data-full="images/H.jpg">
+        <img src="images/I.jpg" alt="photo 8" data-full="images/I.jpg">
+      </div>
+
+    </section>
+
+    <footer>
+      <div style="font-size:12px">Tip: click any photo to view larger</div>
+    </footer>
+  </div>
+
+  <!-- modal preview -->
+  <div class="modal" id="modal"><div class="inner" id="modalInner"></div></div>
+
+  <script>
+    // Small confetti implementation
+    const confettiCanvas = document.getElementById('confetti');
+    const ctx = confettiCanvas.getContext('2d');
+    function resizeCanvas(){
+      confettiCanvas.width = confettiCanvas.clientWidth * devicePixelRatio;
+      confettiCanvas.height = confettiCanvas.clientHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // particles
+    function launchConfetti(){
+      const pieces = [];
+      const W = confettiCanvas.clientWidth, H = confettiCanvas.clientHeight;
+      for(let i=0;i<140;i++){
+        pieces.push({x:Math.random()*W,y:Math.random()*-H,vy:1+Math.random()*4,rx:Math.random()*8,ry:Math.random()*16,color:['#FF6B9A','#FFB88C','#FFD477','#8EE0FF'][Math.floor(Math.random()*4)],rot:Math.random()*360});
+      }
+      let t=0;
+      function draw(){
+        t+=1;
+        ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+        for(const p of pieces){
+          p.y += p.vy; p.x += Math.sin(t/10 + p.x/100) * 0.6; p.rot += 4;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot * Math.PI/180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.rx/2, -p.ry/2, p.rx, p.ry);
+          ctx.restore();
+        }
+        // stop when pieces are offscreen
+        if(pieces.every(p => p.y > H + 50)) return;
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // gallery behavior
+    const gallery = document.getElementById('gallery');
+    gallery.addEventListener('click', e=>{
+      const img = e.target.closest('img');
+      if(!img) return;
+      const full = img.dataset.full || img.src;
+      const modal = document.getElementById('modal');
+      const inner = document.getElementById('modalInner');
+      inner.innerHTML = `<img src="${full}" alt="full photo">`;
+      modal.classList.add('show');
+    });
+    document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal') e.currentTarget.classList.remove('show'); });
+
+    // shuffle photos
+    document.getElementById('shuffle').addEventListener('click', ()=>{
+      const imgs = Array.from(gallery.querySelectorAll('img'));
+      for(let i=imgs.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        gallery.insertBefore(imgs[j], imgs[i]);
+        imgs.splice(j,1);
+      }
+    });
+
+    // celebrate button
+    document.getElementById('celebrate').addEventListener('click', ()=>{
+      launchConfetti();
+      // little pulse
+      const card = document.getElementById('card');
+      card.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:600,iterations:1});
+    });
+
+    // small accessibility: keyboard escape closes modal
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('modal').classList.remove('show'); });
+
+    // Make the current age calculation (optional)
+    (function setAge(){
+      try{
+        const born = new Date(2001,9,28); // months 0-indexed, Oct = 9
+        const now = new Date();
+        let age = now.getFullYear() - born.getFullYear();
+        const m = now.getMonth() - born.getMonth();
+        if(m<0 || (m===0 && now.getDate()<born.getDate())) age--;
+        // find the element with the big text to show age
+        const big = document.querySelector('.big-wish');
+        if(big) big.textContent = `Happy ${age}th, my love!`;
+      }catch(e){console.warn(e)}
+    })();
+  </script>
+</body>
+</html>
